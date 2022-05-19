@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <title>Ruletka</title>
+  <meta charset="utf-8">
+  <style>
+  .styl {
+    font-family: Helvetica;
+    text-align: center;
+  }
+  .rozmiar {
+    font-size: 16px;
+  }
+  .ruletka {
+    position: absolute;
+    color: white;
+    width: 25px;
+    bottom: 50%;
+    top: 50%;
+    right: 50%;
+    left: 50%;
+    height: 20px;
+  }
+  .green {
+    background-color: green;
+  }
+  .red {
+    background-color: red;
+  }
+  .black {
+    background-color: black;
+  }
+  .blue {
+    background-color: blue;
+  }
+  </style>
+</head>
+<body>
+<div class="styl">
+  <h1>Ruletka</h1>
+  <div>
+    Wytypuj
+    <select class="rozmiar" id="kolor">
+      <option value="3" selected>Kolor</option>
+      <option value="2">Czerwony</option>
+      <option value="1">Czarny</option>
+      <option value="0">Zielony</option>
+    </select>
+    <input class="rozmiar" type="button" onclick="zakrec()" value="Zakręć ruletką"><br>
+    Wytypuj numer
+    <input class="rozmiar" value="0" type="number" id="liczba" min="0" max="36">
+    <input class="rozmiar" type="button" onclick="obroc()" value="Zakręć ruletką">
+
+  </div><br>
+  <div class="wynik" id="wynik"></div><br>
+  <div id="tab"></div>
+</div>
+<script>
+
+var liczby = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
+
+function licznik() {
+  var x="";
+  var a=0;
+  for(var i=0; i<37; i++){
+    if(i==0){
+      x = "<div class='ruletka green' style='transform: rotate("+a+"deg) translateX(100px);'>0</div>";
+      continue;
+    }
+    if((i % 2)==0){
+      a+=9.71;
+      x += "<div class='ruletka black' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+    }else{
+      a+=9.71;
+      x += "<div class='ruletka red' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+    }
+  }
+  document.getElementById("tab").innerHTML = x;
+}
+licznik();
+function zakrec() {
+  var x="";
+  var a=0;
+  var losowa =  Math.floor(Math.random() * 37);
+  for(var i=0; i<37; i++){
+    if(liczby[i]==losowa){
+      var k = document.getElementById("kolor").selectedIndex;
+      var o = document.getElementsByTagName("option")[k].value;
+      if(o==3){
+        document.getElementById("wynik").innerHTML = "Nie wybrałeś koloru";
+      }else if(o==0 && i==o){
+        document.getElementById("wynik").innerHTML = "Wygrałeś";
+      }else if(o==1 && (i % 2)==0 && (o % 2)!==0){
+        document.getElementById("wynik").innerHTML = "Wygrałeś";
+      }else if(o==2 && (i % 2)!==0 && (o % 2)==0){
+        document.getElementById("wynik").innerHTML = "Wygrałeś";
+      }else{
+        document.getElementById("wynik").innerHTML = "Przegrałeś";
+      }
+      x += "<div class='ruletka blue' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+      a+=9.71;
+    }else{
+      if(i==0){
+        x += "<div class='ruletka green' style='transform: rotate(0deg) translateX(100px);'>0</div>";
+        a+=9.71;
+      }else{
+        if((i % 2)==0){
+          x += "<div class='ruletka black' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+          a+=9.71;
+        }else{
+          x += "<div class='ruletka red' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+          a+=9.71;
+        }
+      }
+    }
+  }
+  document.getElementById("tab").innerHTML = x;
+}
+function obroc() {
+  var x="";
+  var a=0;
+  var losowa =  Math.floor(Math.random() * 37);
+  for(var i=0; i<37; i++){
+    if(liczby[i]==losowa){
+      var l = document.getElementById("liczba").value;
+      l=Number(l);
+      if(l==liczby[i]){
+        document.getElementById("wynik").innerHTML = "Wygrałeś";
+      }else{
+        document.getElementById("wynik").innerHTML = "Przegrałeś";
+      }
+      x += "<div class='ruletka blue' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+      a+=9.71;
+    }else{
+      if(i==0){
+        x += "<div class='ruletka green' style='transform: rotate(0deg) translateX(100px);'>0</div>";
+        a+=9.71;
+      }else{
+        if((i % 2)==0){
+          x += "<div class='ruletka black' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+          a+=9.71;
+        }else{
+          x += "<div class='ruletka red' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+          a+=9.71;
+        }
+      }
+    }
+  }
+  document.getElementById("tab").innerHTML = x;
+}
+</script>
+</body>
+</html>
