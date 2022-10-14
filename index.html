@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
   <title>Ruletka</title>
+  <meta charset="utf-8">
   <style>
   .styl {
     font-family: Helvetica;
@@ -38,119 +38,108 @@
 <body>
 <div class="styl">
   <h1>Ruletka</h1>
-  <div id="demo"></div>
+  <div>
+    <input type="radio" id="europejska" name="rodzaj_ruletki" onclick="licznik()" value="europejska" checked>
+    <label for="html">Europejska</label><br>
+    <input type="radio" id="amerykanska" name="rodzaj_ruletki" onclick="licznik()" value="amerykanska">
+    <label for="html">Amerykanska</label><br>
+  </div>
   <div>
     Wytypuj
     <select class="rozmiar" id="kolor">
-      <option value="3" selected>Kolor</option>
+      <option value="0" selected>Kolor</option>
+      <option value="1">Zielony</option>
       <option value="2">Czerwony</option>
-      <option value="1">Czarny</option>
-      <option value="0">Zielony</option>
+      <option value="3">Czarny</option>
     </select>
-    <input class="rozmiar" type="button" onclick="zakrec()" value="Zakręć ruletką"><br>
+    <input class="rozmiar" type="button" id="kolory" value="Zakręć ruletką"><br>
     Wytypuj numer
-    <input class="rozmiar" value="0" type="number" id="liczba" min="0" max="36">
-    <input class="rozmiar" type="button" onclick="obroc()" value="Zakręć ruletką">
+    <input class="rozmiar" type="number" id="liczba" min="0" max="36">
+    <input class="rozmiar" type="button" id="liczby" value="Zakręć ruletką">
 
   </div><br>
   <div class="wynik" id="wynik"></div><br>
   <div id="tab"></div>
 </div>
 <script>
-  
-  document.getElementById("demo").innerHTML = "<p>Twoje urządzenie: "+navigator.appVersion.match(/(?<=\;)[A-z, 0-9]+(?=\))/) + " jest zawirusowane</p>";
 
-var liczby = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
+document.cookie = "sddssdf";
+
+var w=2;
+document.getElementById("kolory").onclick = function() {w=0; licznik()};
+document.getElementById("liczby").onclick = function() {w=1; licznik()};
 
 function licznik() {
+  if(document.getElementById("europejska").checked == true){
+    var ilosc = 37;
+    var b = 9.72;
+    var pola = ["0", "32", "15", "19", "4", "21", "2", "25", "17", "34", "6", "27", "13", "36", "11", "30", "8", "23", "10", "5", "24", "16", "33", "1", "20", "14", "31", "9", "22", "18", "29", "7", "28", "12", "35", "3", "26"];
+  }else if(document.getElementById("amerykanska").checked == true){
+    var ilosc = 38;
+    var b = 9.45;
+    var pola = ["0", "28", "9", "26", "30", "11", "7", "20", "32", "17", "5", "22", "34", "15", "3", "24", "36", "13", "1", "00", "27", "10", "25", "29", "12", "8", "19", "31", "18", "6", "21", "33", "16", "4", "23", "35", "14", "2"];
+  }
+  var losowa = Math.floor(Math.random() * ilosc);
   var x="";
+  var y="";
   var a=0;
-  for(var i=0; i<37; i++){
-    if(i==0){
-      x = "<div class='ruletka green' style='transform: rotate("+a+"deg) translateX(100px);'>0</div>";
-      continue;
-    }
-    if((i % 2)==0){
-      a+=9.71;
-      x += "<div class='ruletka black' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+  var kolor="";
+  for(var i=0; i<ilosc; i++){
+    if(i==losowa && w!=2){
+      if(w==0){
+        var k = document.getElementById("kolor").selectedIndex;
+        var o = document.getElementsByTagName("option")[k].value;
+        if(o==0){
+           y = "Nie wybrałeś koloru";
+        }else if(o==1 && (pola[i]==="0" || pola[i]==="00")){
+          y = "Wygrałeś";
+        }else if(o==2 && pola[i]!=="0" && pola[i]!=="00" && ((ilosc==37 && (i % 2)!=0) || (ilosc==38 && (i % 2)==0))){
+          y = "Wygrałeś";
+        }else if(o==3 && pola[i]!=="0" && pola[i]!=="00" && ((ilosc==37 && (i % 2)==0) || (ilosc==38 && (i % 2)!=0))){
+          y = "Wygrałeś";
+        }else{
+          y = "Przegrałeś";
+        }
+      }else if(w==1){
+        var l = document.getElementById("liczba").value;
+        console.log(typeof(l))
+        if(l>36 || l<0){
+          y = "Numer poza zakresem";
+        }else{
+          l=String(l);
+          if(l==""){
+            y = "Nie wprowadziłeś numeru";
+          }else if(l===pola[i]){
+            y = "Wygrałeś";
+          }else{
+            y = "Przegrałeś";
+          }
+        }
+      }
+      kolor = "blue";
+      document.getElementById("wynik").innerHTML = y;
     }else{
-      a+=9.71;
-      x += "<div class='ruletka red' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
+      if(i==0){
+        kolor = "green";
+      }else if(ilosc==38 && (i % 2)!=0){
+        if(i==19){
+          kolor = "green";
+        }else{
+          kolor = "black";
+        }
+      }else if(ilosc==37 && (i % 2)==0){
+        kolor = "black";
+      }
+      else{
+        kolor = "red";
+      }
     }
+    x += "<div class='ruletka "+kolor+"' style='transform: rotate("+a+"deg) translateX(100px);'>"+pola[i]+"</div>";
+    a+=b;
   }
   document.getElementById("tab").innerHTML = x;
 }
 licznik();
-function zakrec() {
-  var x="";
-  var a=0;
-  var losowa =  Math.floor(Math.random() * 37);
-  for(var i=0; i<37; i++){
-    if(liczby[i]==losowa){
-      var k = document.getElementById("kolor").selectedIndex;
-      var o = document.getElementsByTagName("option")[k].value;
-      if(o==3){
-        document.getElementById("wynik").innerHTML = "Nie wybrałeś koloru";
-      }else if(o==0 && i==o){
-        document.getElementById("wynik").innerHTML = "Wygrałeś";
-      }else if(o==1 && (i % 2)==0 && (o % 2)!==0){
-        document.getElementById("wynik").innerHTML = "Wygrałeś";
-      }else if(o==2 && (i % 2)!==0 && (o % 2)==0){
-        document.getElementById("wynik").innerHTML = "Wygrałeś";
-      }else{
-        document.getElementById("wynik").innerHTML = "Przegrałeś";
-      }
-      x += "<div class='ruletka blue' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
-      a+=9.71;
-    }else{
-      if(i==0){
-        x += "<div class='ruletka green' style='transform: rotate(0deg) translateX(100px);'>0</div>";
-        a+=9.71;
-      }else{
-        if((i % 2)==0){
-          x += "<div class='ruletka black' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
-          a+=9.71;
-        }else{
-          x += "<div class='ruletka red' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
-          a+=9.71;
-        }
-      }
-    }
-  }
-  document.getElementById("tab").innerHTML = x;
-}
-function obroc() {
-  var x="";
-  var a=0;
-  var losowa =  Math.floor(Math.random() * 37);
-  for(var i=0; i<37; i++){
-    if(liczby[i]==losowa){
-      var l = document.getElementById("liczba").value;
-      l=Number(l);
-      if(l==liczby[i]){
-        document.getElementById("wynik").innerHTML = "Wygrałeś";
-      }else{
-        document.getElementById("wynik").innerHTML = "Przegrałeś";
-      }
-      x += "<div class='ruletka blue' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
-      a+=9.71;
-    }else{
-      if(i==0){
-        x += "<div class='ruletka green' style='transform: rotate(0deg) translateX(100px);'>0</div>";
-        a+=9.71;
-      }else{
-        if((i % 2)==0){
-          x += "<div class='ruletka black' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
-          a+=9.71;
-        }else{
-          x += "<div class='ruletka red' style='transform: rotate("+a+"deg) translateX(100px);'>"+liczby[i]+"</div>";
-          a+=9.71;
-        }
-      }
-    }
-  }
-  document.getElementById("tab").innerHTML = x;
-}
 </script>
 </body>
 </html>
