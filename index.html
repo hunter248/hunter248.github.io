@@ -38,6 +38,7 @@
 <body>
 <div class="styl">
   <h1>Ruletka</h1>
+  <div id="demo"></div>
   <div>
     <input type="radio" id="europejska" name="rodzaj_ruletki" onclick="licznik()" value="europejska" checked>
     <label for="html">Europejska</label><br>
@@ -62,7 +63,7 @@
   <div id="tab"></div>
 </div>
 <script>
- 
+
 document.cookie = "sddssdf";
 
 var w=2;
@@ -91,11 +92,11 @@ function licznik() {
         var o = document.getElementsByTagName("option")[k].value;
         if(o==0){
            y = "Nie wybrałeś koloru";
-        }else if(o==1 && (pola[i]==="0" || pola[i]==="00")){
+        }else if(o==1 && (i==19 || i==0)){
           y = "Wygrałeś";
-        }else if(o==2 && pola[i]!=="0" && pola[i]!=="00" && ((ilosc==37 && (i % 2)!=0) || (ilosc==38 && (i % 2)==0))){
+        }else if(o==2 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)!=0) || (ilosc==38 && (i % 2)==0))){
           y = "Wygrałeś";
-        }else if(o==3 && pola[i]!=="0" && pola[i]!=="00" && ((ilosc==37 && (i % 2)==0) || (ilosc==38 && (i % 2)!=0))){
+        }else if(o==3 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)==0) || (ilosc==38 && (i % 2)!=0))){
           y = "Wygrałeś";
         }else{
           y = "Przegrałeś";
