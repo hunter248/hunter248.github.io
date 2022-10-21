@@ -108,6 +108,9 @@ function licznik() {
   kasa = Number(kasa);
   if (kasa == "") {
     kasa = 1000;
+    if (kasa != "" && kasa != null) {
+      setCookie("username", kasa, 30);
+    }
   }
   if(document.getElementById("jeden").checked == true){
     var ile = 1;
@@ -194,9 +197,7 @@ function licznik() {
   }
   document.getElementById("wynik").innerHTML = y;
   document.getElementById("tab").innerHTML = x;
-  if (kasa != "" && kasa != null) {
-    setCookie("username", kasa, 30);
-  }
+  setCookie("username", kasa, 30);
   document.getElementById("konto").innerHTML = kasa;
 }
 </script>
