@@ -94,15 +94,14 @@ function getCookie(cname) {
   return "";
 }
 function checkCookie() {
-  let user = getCookie("username");
-  if (user != "") {
-    alert("Welcome again " + user);
-  } else {
-     user = prompt("Please enter your name:","");
-     if (user != "" && user != null) {
-       setCookie("username", user, 30);
-     }
+  var kasa = Number(getCookie("username"));
+  if (kasa == "") {
+    kasa = 1000;
+    if (kasa != "" && kasa != null) {
+      setCookie("username", kasa, 30);
+    }
   }
+  document.getElementById("konto").innerHTML += kasa;
 }
 document.getElementById("body").onload = function() {checkCookie()};
 
