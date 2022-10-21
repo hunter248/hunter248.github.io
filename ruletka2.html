@@ -115,10 +115,14 @@ function licznik() {
     var ile = 5;
   }else if(document.getElementById("dwapiec").checked == true){
     var ile = 25;
-  }else if(document.getElementById("dsto").checked == true){
+  }else if(document.getElementById("sto").checked == true){
     var ile = 100;
   }
   if((document.getElementById("europejska").checked == true) || (document.getElementById("francuska").checked == true)){
+    var f=0;
+    if(document.getElementById("francuska").checked == true){
+      f=1;
+    }
     var ilosc = 37;
     var b = 9.72;
     var pola = ["0", "32", "15", "19", "4", "21", "2", "25", "17", "34", "6", "27", "13", "36", "11", "30", "8", "23", "10", "5", "24", "16", "33", "1", "20", "14", "31", "9", "22", "18", "29", "7", "28", "12", "35", "3", "26"];
@@ -152,15 +156,16 @@ function licznik() {
           l=String(l);
           if(l==""){
             y = "Nie wprowadziłeś numeru";
-          }else if(l===pola[i]){
+          }else if(l===pola[i] || f==1){
             y = "Wygrałeś";
             if(ilosc==37){
-              console.log(kasa);
-              kasa += ile * 37;
-              console.log(kasa);
+              if(f==1 && losowa==0 && l!=0){
+                kasa += ile / 2;
+              }else{
+                kasa += ile * 37;
+              }
             }else if(ilosc==38){
               kasa += ile * 38;
-              console.log(kasa);
             }
           }else{
             y = "Przegrałeś";
