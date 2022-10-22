@@ -156,7 +156,7 @@ function licznik() {
         var o = document.getElementsByTagName("option")[k].value;
         if(o==0){
            y = "Nie wybrałeś koloru";
-        }else if(f==1 || ((o==1 && ((ilosc==37 && i==0) || (ilosc==38 && (i==19 || i==0)))) || ((o==2 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)!=0) || (ilosc==38 && (i % 2)==0))) || (o==3 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)==0) || (ilosc==38 && (i % 2)!=0)))))){
+        }else if((f==1 && i==0) || ((o==1 && ((ilosc==37 && i==0) || (ilosc==38 && (i==19 || i==0)))) || ((o==2 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)!=0) || (ilosc==38 && (i % 2)==0))) || (o==3 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)==0) || (ilosc==38 && (i % 2)!=0)))))){
           y = "Wygrałeś";
           if(f==1 && losowa==0 && o!=1){
             kasa += ile / 2;
