@@ -48,29 +48,33 @@
   </div>
   <div>
     Wytypuj
-    <select class="rozmiar" id="kolor">
+    <select id="kolor">
       <option value="0" selected>Kolor</option>
       <option value="1">Zielony</option>
       <option value="2">Czerwony</option>
       <option value="3">Czarny</option>
     </select>
-    <input class="rozmiar" type="button" id="kolory" value="Zakręć ruletką"><br>
+    <input type="button" id="kolory" value="Zakręć ruletką"><br>
     Wytypuj numer
-    <input class="rozmiar" type="number" id="liczba" min="0" max="36">
-    <input class="rozmiar" type="button" id="liczby" value="Zakręć ruletką">
+    <input type="number" id="liczba" min="0" max="36">
+    <input type="button" id="liczby" value="Zakręć ruletką">
 
   </div>
   <div>
-    1
-    <input type="radio" id="jeden" name="za_ile"  checked>&emsp;
-    5
-    <input type="radio" id="piec" name="za_ile">&emsp;
-    25
-    <input type="radio" id="dwapiec" name="za_ile">&emsp;
-    100
-    <input type="radio" id="sto" name="za_ile">
+    Grasz za
+    <input type="number" id="zaile" min="1">
+    +
+    <input type="button" id="jeden" value="1">
+    ,&emsp;
+    <input type="button" id="piec" value="5">
+    ,&emsp;
+    <input type="button" id="dwapiec" value="25">
+    ,&emsp;
+    <input type="button" id="sto" value="100">
+    ,&emsp;
+    <input type="button" id="allin" value="ALL IN">
   </div><br>
-  <div class="rozmiar" id="wynik"></div>
+  <div id="wynik"></div>
   <div id="tab"></div>
 </div>
 <script>
@@ -102,6 +106,21 @@ document.getElementById("liczby").onclick = function() {w=1; licznik()};
 document.getElementById("europejska").onclick = function() {w=2; licznik()};
 document.getElementById("francuska").onclick = function() {w=2; licznik()};
 document.getElementById("amerykanska").onclick = function() {w=2; licznik()};
+var ile = document.getElementById("zaile").value;
+ile = Number(ile);
+
+
+
+
+//dodaje ponad kase
+document.getElementById("jeden").onclick = function() {ile+=1; zaile()};
+document.getElementById("piec").onclick = function() {ile+=5; zaile()};
+document.getElementById("dwapiec").onclick = function() {ile+=25; zaile()};
+document.getElementById("sto").onclick = function() {ile+=100; zaile()};
+document.getElementById("allin").onclick = function() {ile+=      ile                                        ; zaile()};
+function zaile(){
+  document.getElementById("zaile").value = ile;
+}
 
 function licznik() {
   var kasa = getCookie("username");
@@ -111,15 +130,6 @@ function licznik() {
     if (kasa != "" && kasa != null) {
       setCookie("username", kasa, 30);
     }
-  }
-  if(document.getElementById("jeden").checked == true){
-    var ile = 1;
-  }else if(document.getElementById("piec").checked == true){
-    var ile = 5;
-  }else if(document.getElementById("dwapiec").checked == true){
-    var ile = 25;
-  }else if(document.getElementById("sto").checked == true){
-    var ile = 100;
   }
   if((document.getElementById("europejska").checked == true) || (document.getElementById("francuska").checked == true)){
     var f=0;
@@ -146,10 +156,16 @@ function licznik() {
         var o = document.getElementsByTagName("option")[k].value;
         if(o==0){
            y = "Nie wybrałeś koloru";
-        }else if((o==1 && ((ilosc==37 && i==0) || (ilosc==38 && (i==19 || i==0)))) || ((o==2 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)!=0) || (ilosc==38 && (i % 2)==0))) || (o==3 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)==0) || (ilosc==38 && (i % 2)!=0))))){
+        }else if(f==1 || ((o==1 && ((ilosc==37 && i==0) || (ilosc==38 && (i==19 || i==0)))) || ((o==2 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)!=0) || (ilosc==38 && (i % 2)==0))) || (o==3 && i!=19 && i!=0 && ((ilosc==37 && (i % 2)==0) || (ilosc==38 && (i % 2)!=0)))))){
           y = "Wygrałeś";
+          if(f==1 && losowa==0 && o!=1){
+            kasa += ile / 2;
+          }else{
+            kasa += ile * 2;
+          }
         }else{
           y = "Przegrałeś";
+          kasa -= ile;
         }
       }else if(w==1){
         var l = document.getElementById("liczba").value;
@@ -161,14 +177,10 @@ function licznik() {
             y = "Nie wprowadziłeś numeru";
           }else if(l===pola[i] || f==1){
             y = "Wygrałeś";
-            if(ilosc==37){
-              if(f==1 && losowa==0 && l!=0){
-                kasa += ile / 2;
-              }else{
-                kasa += ile * 37;
-              }
-            }else if(ilosc==38){
-              kasa += ile * 38;
+            if(f==1 && losowa==0 && l!=0){
+              kasa += ile / 2;
+            }else{
+              kasa += ile * 36;
             }
           }else{
             y = "Przegrałeś";
