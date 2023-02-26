@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Instalink2</title>
+  </head>
+  <body style="margin:0px;padding:0px;overflow:hidden">
+    <iframe src="https://instaling.pl" frameborder="0" style="height:100vh;width:100vw"></iframe>
+    <script>
+    setInterval(function(){
+      if(document.getElementById("answer")){
+        var a = "";
+        var b = document.getElementsByClassName("usage_example")[0].outerText;
+        if(b === "Die _________________ Deutschlands erfolgte am 3. Oktober 1990."){
+          a = "die Wiedervereinigung";
+        }
+        if(b === "Wir haben Zeit, also mache wir einen _____________."){
+          a = "der Zwischenstopp";
+        }
+        if(b === "Ich züchte ____."){
+          a = "das Vieh";
+        }
+        if(b === "Ich habe die ________ verloren."){
+          a = "die Richtung";
+        }
+        if(b === "Die ______ von Berlin ist sehr schön."){
+          a = "die Gegend";
+        }
+        if(b === "Der Verband vertritt in erster Linie die Interessen der _________."){
+          a = "die Industrie";
+        }
+        if(b === "Mary hat ein paar Monate lang in einem _______ gelebt."){
+          a = "das Kloster";
+        }
+        if(b === "Vögel fliegen lange ________."){
+          a = "die Strecke";
+        }
+        if(b === "Sie sollten mit öffentlichen _______________ fahren."){
+          a = "das Verkehrsmittel";
+        }
+        if(b === " Das Hotel liegt in reizvoller ________."){
+          a = "die Umgebung";
+        }
+        if(b === "Um das zu schaffen, müssen wir viele Länder ___________."){
+          a = "durchqueren";
+        }
+        if(b === "Der häufige Blick auf das Handy spiegelt die ______ unserer Zeit wider."){
+          a = "die Hektik";
+        }
+        if(b === "Rauchen ist in diesem ______ verboten."){
+          a = "das Gebiet";
+        }
+        if(b === "Sie steckten stundenlang im ____."){
+          a = "der Stau";
+        }
+        if(b === "Habt ihr schon das _______ gesehen?"){
+          a = "das Schloss";
+        }
+        if(b === "Ich kaufe oft wertvolle Sachen auf dem _________."){
+          a = "der Flohmarkt";
+        }
+        if(b === "Der Berliner Reichstag ist der Sitz des ___________."){
+          a = "der Bundestag";
+        }
+        if(b === "Auf der _________ hatten wir eine Panne."){
+          a = "die Rückfahrt";
+        }
+        if(b === "Die Fantasie ist __________."){
+          a = "unbegrenzt";
+        }
+        if(b === "Vierzig Tage lebte er in der _____."){
+          a = "die Wüste";
+        }
+        if(b === "Er musste die Katze erst an sich ________ ."){
+          a = "gewöhnen";
+        }
+        if(b === "Er ist viele Jahre zwischen Warschau und Krakau _________."){
+          a = "pendeln";
+        }
+        document.getElementById("answer").value = a;
+        /*
+        document.getElementById("check").click();
+        document.getElementById("nextword").click();
+        */
+      }
+    }, 100);
+    </script>
+  </body>
+</html>
