@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>progress codm</title>
+  </head>
+  <body>
+    <div id="opcje"></div>
+    <div>
+      <div id="wylosowano"></div>
+      <div id="licznik"></div>
+      <button id="losujButton">Losuj</button>
+    </div>
+
+    <script>
+      let iloscLosowan = 0; // Inicjalizacja licznika
+      const trafienia = {}; // Obiekt przechowujący ilość trafień dla każdej opcji
+
+      function losujOpcje(opcje) {
+        // Zwiększenie licznika losowań
+        iloscLosowan++;
+
+        // Sprawdzenie, czy suma procentów wynosi 100.00
+        const sumaProcentow = opcje.reduce((suma, opcja) => suma + opcja.procent, 0);
+        if (Math.abs(sumaProcentow - 100.00) > 0.01) {
+          throw new Error('Suma procentów musi wynosić 100.00.');
+        }
+
+        // Wygenerowanie losowej liczby z zakresu 0.00-99.99
+        const losowaLiczba = Math.random() * 100.00;
+
+        // Określenie, która opcja została wybrana
+        let procentSuma = 0.00;
+        for (const opcja of opcje) {
+          procentSuma += opcja.procent;
+          if (losowaLiczba < procentSuma) {
+            // Zwiększenie ilości trafień dla wybranej opcji
+            if (!trafienia[opcja.nazwa]) {
+              trafienia[opcja.nazwa] = 1;
+            } else {
+              trafienia[opcja.nazwa]++;
+            }
+            return opcja;
+          }
+        }
+      }
+
+      // Przykładowe opcje wraz z procentami (z dokładnością do 2 miejsc po przecinku)
+      const opcje = [
+        { nazwa: "Wingsuit - Scarlet Vengeance", procent: 29.00 },
+        { nazwa: "Combat Axe - Fanged Dragon", procent: 28.00 },
+        { nazwa: ".50 GS - Scarlet Vengeance", procent: 11.00 },
+        { nazwa: "Wolf of Vengeance", procent: 10.00 },
+        { nazwa: "Helicopter - Scarlet Vengeance", procent: 6.50 },
+        { nazwa: "Wolf's Breath", procent: 5.50 },
+        { nazwa: "Shadow of Vengeance", procent: 4.67 },
+        { nazwa: "Type 25 - Scarlet Vengeance", procent: 4.00 },
+        { nazwa: "Sophia - Errant Knight", procent: 1.25 },
+        { nazwa: "Butterfly Knife - Carvel", procent: 0.08 },
+      ];
+
+      document.getElementById("losujButton").addEventListener("click", () => {
+        try {
+          const opcja = losujOpcje(opcje);
+          document.getElementById("wylosowano").innerHTML = `${opcja.procent.toFixed(2)}% : ${opcja.nazwa}`;
+
+          let opcjeHTML = "<ul>";
+          for (const opcja of opcje) {
+            const iloscTrafien = trafienia[opcja.nazwa] || 0;
+            opcjeHTML += `<li>${opcja.procent.toFixed(2)}% : ${opcja.nazwa} (Trafienia: ${iloscTrafien})</li>`;
+          }
+          opcjeHTML += "</ul>";
+          document.getElementById("opcje").innerHTML = opcjeHTML;
+
+          document.getElementById("licznik").innerHTML = `Ilość losowań: ${iloscLosowan}`;
+        } catch (error) {
+          console.error(error.message);
+        }
+      });
+    </script>
+  </body>
+</html>
