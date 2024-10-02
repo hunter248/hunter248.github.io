@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Znaki Diakrytyczne</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
+        .button-container, .recent-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 5px;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 35px;
+            height: 35px;
+        }
+        button:hover {
+            background-color: #ddd;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Dodaj znaki diakrytyczne</h1>
+
+<textarea id="textArea" placeholder="Napisz coś tutaj..."></textarea>
+
+<h2>Ostatnio użyte znaki:</h2>
+<div class="recent-container" id="recentContainer"></div>
+
+<h2>Wszystkie znaki diakrytyczne:</h2>
+<div class="button-container" id="buttonContainer"></div>
+
+<script>
+    // Zakresy Unicode dla znaków diakrytycznych
+    const unicodeRanges = [
+        { start: 0x0300, end: 0x036F },  // Combining Diacritical Marks
+        { start: 0x1AB0, end: 0x1AFF },  // Combining Diacritical Marks Extended
+        { start: 0xFE20, end: 0xFE2F },  // Combining Half Marks
+        { start: 0x20D0, end: 0x20FF }   // Combining Diacritical Marks for Symbols
+    ];
+
+    // Tablica na ostatnio użyte znaki
+    let recentChars = [];
+
+    // Funkcja, która dodaje znak diakrytyczny do pola tekstowego
+    function insertChar(char) {
+        const textArea = document.getElementById("textArea");
+        const start = textArea.selectionStart;
+        const end = textArea.selectionEnd;
+        const text = textArea.value;
+
+        // Dodajemy znak w miejscu kursora
+        textArea.value = text.substring(0, start) + char + text.substring(end);
+
+        // Ustawiamy kursor po wstawionym znaku
+        textArea.selectionStart = textArea.selectionEnd = start + char.length;
+
+        // Skupiamy ponownie na polu tekstowym
+        textArea.focus();
+
+        // Dodajemy znak do ostatnio użytych
+        addToRecent(char);
+    }
+
+    // Funkcja dodająca znak do ostatnio użytych
+    function addToRecent(char) {
+        // Jeśli znak już istnieje w recentChars, usuwamy go
+        recentChars = recentChars.filter(c => c !== char);
+
+        // Dodajemy nowy znak na początek
+        recentChars.unshift(char);
+
+        // Ograniczamy listę do 10 znaków
+        if (recentChars.length > 10) {
+            recentChars.pop();
+        }
+
+        // Odświeżamy wyświetlane ostatnio użyte znaki
+        updateRecentButtons();
+    }
+
+    // Funkcja odświeżająca przyciski dla ostatnio użytych znaków
+    function updateRecentButtons() {
+        const recentContainer = document.getElementById("recentContainer");
+        recentContainer.innerHTML = ''; // Czyścimy aktualne przyciski
+
+        recentChars.forEach(char => {
+            const button = document.createElement('button');
+            button.textContent = char;
+            button.addEventListener('click', () => insertChar(char));
+            recentContainer.appendChild(button);
+        });
+    }
+
+    // Funkcja generująca przyciski dla wszystkich znaków diakrytycznych
+    function generateButtons() {
+        const container = document.getElementById("buttonContainer");
+
+        unicodeRanges.forEach(range => {
+            for (let i = range.start; i <= range.end; i++) {
+                const diacriticChar = String.fromCharCode(i);
+                const button = document.createElement('button');
+                button.textContent = diacriticChar;
+                button.addEventListener('click', () => insertChar(diacriticChar));
+                container.appendChild(button);
+            }
+        });
+    }
+
+    // Generujemy przyciski przy ładowaniu strony
+    window.onload = generateButtons;
+</script>
+
+</body>
+</html>
