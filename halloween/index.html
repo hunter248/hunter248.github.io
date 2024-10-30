@@ -52,9 +52,10 @@
   </style>
 </head>
 <body>
-  <iframe id="ytPlayer" width="0" height="0"
-        src="https://www.youtube.com/embed/I_-iS3GbwuI?autoplay=0&mute=0"
-        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <audio id="myAudio" loop>
+    <source src="GENZIE-HALLOWEEN.mp3" type="audio/mpeg">
+    Twoja przeglądarka nie obsługuje odtwarzacza audio.
+  </audio>
   <video autoplay muted loop id="myVideo">
     <source src="halloween1.mp4" type="video/mp4">
     Twoja przegladarka nie wspiera HTML5 wideo :(
@@ -62,12 +63,12 @@
   <img src="halloweenTekst.png" alt="Halloween Tekst" class="overlay-image" id="halloweenImage">
   <img src="koperta.png" alt="Koperta" class="koperta">
   <script>
-  function playVideo() {
-             var iframe = document.getElementById('ytPlayer');
-             iframe.src = "https://www.youtube.com/embed/I_-iS3GbwuI?autoplay=1&mute=0";
-             document.removeEventListener('click', playVideo);
-         }
-         document.addEventListener('click', playVideo);
+  function playAudio() {
+            var audio = document.getElementById('myAudio');
+            audio.play();
+            document.removeEventListener('click', playAudio);
+        }
+        document.addEventListener('click', playAudio);
     const videoSources = ["halloween1.mp4", "halloween2.mp4", "halloween3.mp4"];
     let currentVideoIndex = 0;
     const videoElement = document.getElementById("myVideo");
