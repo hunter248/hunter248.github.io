@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halloween</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+      overflow: hidden;
+    }
+    video {
+      position: absolute;
+      width: 33%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      object-fit: contain;
+      transition: top 1s ease-in-out, width 1s ease-in-out, transform 1s ease-in-out;
+      z-index: 1;
+    }
+    .video-visible {
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: translate(-50%, 0) scale(1);
+    }
+    .overlay-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      z-index: 2;
+    }
+    .image-visible {
+      opacity: 1;
+    }
+    .koperta {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <audio id="myAudio" loop>
+    <source src="MEDUZA.mp3" type="audio/mpeg">
+    Twoja przeglądarka nie obsługuje odtwarzacza audio.
+  </audio>
+  <video autoplay muted loop id="myVideo">
+    <source src="tlo.mp4" type="video/mp4">
+    Twoja przegladarka nie wspiera HTML5 wideo :(
+  </video>
+  <img src="uro.png" alt="Halloween Tekst" class="overlay-image" id="halloweenImage">
+  <img src="koperta.png" alt="Koperta" class="koperta">
+  <script>
+    function playAudio() {
+            var audio = document.getElementById('myAudio');
+            audio.play();
+            document.removeEventListener('click', playAudio);
+        }
+        document.addEventListener('click', playAudio);
+    const videoSources = ["tlo.mp4"];
+    let currentVideoIndex = 0;
+    const videoElement = document.getElementById("myVideo");
+    const imageElement = document.getElementById("halloweenImage");
+    function changeVideo() {
+      videoElement.classList.remove('video-visible');
+      imageElement.classList.remove('image-visible');
+      setTimeout(() => {
+      currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+      videoElement.src = videoSources[currentVideoIndex];
+      videoElement.play();
+        videoElement.classList.add('video-visible');
+        setTimeout(() => {
+          imageElement.classList.add('image-visible');
+        }, 1000);
+      }, 1000);
+    }
+    imageElement.addEventListener("click", changeVideo);
+    window.addEventListener('load', changeVideo);
+  </script>
+</body>
+</html>
